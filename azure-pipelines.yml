@@ -17,6 +17,9 @@ parameters:
       - dev
       - test
       - main
+  - name: RunTest
+    type: boolean
+    
 pool:
   vmImage: ubuntu-latest
 
