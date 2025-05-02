@@ -7,12 +7,12 @@ trigger:
 - main
 parameters:
   - name: RepoName
-    type: String
+    type: string
     displayName: Provide Repositoty Name
   - name: BranchName
     type: string
     displayName: Provide Branch Name
-    deault: dev
+    default: dev
     values: 
       - dev
       - test
