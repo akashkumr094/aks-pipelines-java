@@ -5,7 +5,18 @@
 
 trigger:
 - main
-
+parameters:
+  - name: RepoName
+    typ: String
+    displayName: Provide Repositoty Name
+  - name: BranchName
+    type: string
+    displayName: Provide Branch Name
+    deault: dev
+    values: 
+      - dev
+      - test
+      - main
 pool:
   vmImage: ubuntu-latest
 
