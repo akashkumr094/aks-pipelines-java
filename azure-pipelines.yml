@@ -7,7 +7,7 @@ trigger:
 - main
 parameters:
   - name: RepoName
-    typ: String
+    type: String
     displayName: Provide Repositoty Name
   - name: BranchName
     type: string
