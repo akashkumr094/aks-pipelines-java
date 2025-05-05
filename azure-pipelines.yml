@@ -1,21 +1,13 @@
-#azure-pipeline.yml
-
-trigger: none
-
-pool:
-  vmImage: ubuntu-latest
-
-extends:
-  template: testing-template.yml 
+# azure-pipelines.yml
+jobs:
+- template: testing-template.yml
   parameters:
-    testSet:  # Define the 'testSet' parameter to pass to the template
-    - job: positive_test # Define a job named 'positive_test'
-      templateContext:
-        expectedHTTPResponseCode: 200 # Set the expected HTTP response code to 200 for this job
+    jobs:
+    - job: A
       steps:
-      - script: echo "Run positive test" 
-    - job: negative_test # Define a job named 'negative_test'
-      templateContext:
-        expectedHTTPResponseCode: 500 # Set the expected HTTP response code to 500 for this job
+      - script: echo This job depends on SomeSpecialTool, even though it's not explicitly shown here.
+    - job: B
+      dependsOn:
+      - A
       steps:
-      - script: echo "Run negative test"
+      - script: echo This job depends on both Job A and on SomeSpecialTool.
