@@ -1,18 +1,18 @@
-#testing-template.yml
-
-parameters: 
-- name: testSet
+# job.yml
+parameters:
+- name: 'jobs'
   type: jobList
+  default: []
 
 jobs:
-- ${{ each testJob in parameters.testSet }}:  # Iterate over each job in the 'testSet' parameter
-  - ${{ if eq(testJob.templateContext.expectedHTTPResponseCode, 200) }}: # Check if the HTTP response is 200
-    - job:
-      steps: 
-      - powershell: 'Invoke-RestMethod -Uri https://blogs.msdn.microsoft.com/powershell/feed/ | Format-Table -Property Title, pubDate'
-      - ${{ testJob.steps }}    
-  - ${{ if eq(testJob.templateContext.expectedHTTPResponseCode, 500) }}: # Check if the HTTP response is 500
-    - job:
-      steps:
-      - powershell: 'Get-ChildItem -Path Env:\' # Run a PowerShell script to list environment variables
-      - ${{ testJob.steps }} # Include additional steps from the 'testJob' object
+- job: SomeSpecialTool                # Run your special tool in its own job first
+  steps:
+  - task: RunSpecialTool@1
+- ${{ each job in parameters.jobs }}: # Then do each job
+  - ${{ each pair in job }}:          # Insert all properties other than "dependsOn"
+      ${{ if ne(pair.key, 'dependsOn') }}:
+        ${{ pair.key }}: ${{ pair.value }}
+    dependsOn:                        # Inject dependency
+    - SomeSpecialTool
+    - ${{ if job.dependsOn }}:
+      - ${{ job.dependsOn }}
