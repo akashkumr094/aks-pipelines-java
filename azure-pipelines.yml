@@ -1,13 +1,18 @@
 # File: azure-pipelines.yml
+trigger:
+- main
 
-jobs:
-- job: Linux
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - template: testing-template.yml  # Template reference
-- job: Windows
-  pool:
-    vmImage: 'windows-latest'
-  steps:
-  - template: testing-template.yml   # Template reference
+extends:
+  template: testing-template.yml
+  parameters:
+    buildSteps:  
+      - bash: echo Test1 #Passes
+        displayName: succeed1
+      - bash: echo "Test2"
+        displayName: succeed2
+      # Step is rejected by raising a YAML syntax error: Unexpected value 'CmdLine@2'
+      - task: CmdLine@2
+        inputs:
+          script: echo "Script Test3"
+      # Step is rejected by raising a YAML syntax error: Unexpected value 'CmdLine@2'
+      - script: echo "Script Test4"
