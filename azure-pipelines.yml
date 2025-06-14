@@ -11,8 +11,5 @@ extends:
       - bash: echo "Test2"
         displayName: succeed2
       # Step is rejected by raising a YAML syntax error: Unexpected value 'CmdLine@2'
-      - task: CmdLine@1
-        inputs:
-          script: echo "Script Test3"
       # Step is rejected by raising a YAML syntax error: Unexpected value 'CmdLine@2'
       - script: echo "Script Test4"
