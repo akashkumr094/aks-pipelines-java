@@ -1,13 +1,13 @@
-# azure-pipelines.yml
+# File: azure-pipelines.yml
+
 jobs:
-- template: testing-template.yml
-  parameters:
-    jobs:
-    - job: A
-      steps:
-      - script: echo This job depends on SomeSpecialTool, even though it's not explicitly shown here.
-    - job: B
-      dependsOn:
-      - A
-      steps:
-      - script: echo This job depends on both Job A and on SomeSpecialTool.
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - template: testing-template.yml  # Template reference
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - template: testing-template.yml   # Template reference
